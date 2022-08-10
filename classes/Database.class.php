@@ -88,11 +88,14 @@ class Database {
         foreach($this->row as $row){
             $today = date("Y-m-d");
             $expire = $row['expireAt'];
+            $expireid = $row['id'];
             if($expire <= $today && $row['status'] != 'Terminated'){
-                $expireid = $row['id'];
                 $this->sql = $this->connection->prepare("UPDATE services SET status = 'Terminated' WHERE id = :id");
                 $this->sql->execute([':id' => $expireid]);
                 header("Refresh:0");
+            } else if ($expire >= $today) {
+                $this->sql = $this->connection->prepare("UPDATE services SET status = 'Active' WHERE id = :id");
+                $this->sql->execute([':id' => $expireid]);
             }
         }
     }

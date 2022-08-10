@@ -136,10 +136,8 @@ $test = $database->serviceExpiry();
         $math = 0;
     } else {
         echo "hi";
-        $limit = (int)$bandwidth['bandwidth'][0]['acct'][0]['limit']/1024/1024; 
-        $limittext = $limit . " MB";
-        $used = (int)$bandwidth['bandwidth'][0]['acct'][0]['totalbytes'];
-        $math = ($used * 100) / $limit; 
+        $limit = round((int)$bandwidth['bandwidth'][0]['acct'][0]['limit']/1024/1024); 
+        $math = round((int)$bandwidth['bandwidth'][0]['acct'][0]['totalbytes']/1024/1024);
     }
     ?>
      style="--percentage : <?php echo $math ?>; --fill: #FF3D00 ;">
@@ -147,7 +145,7 @@ $test = $database->serviceExpiry();
 
 </div>
     <p class="grey usage-title"> Bandwidth Usage </p>
-    <p class="purple usage-number"> <?php echo $bandwidth['bandwidth'][0]['acct'][0]['totalbytes']; ?> MB / <?php echo $limittext ?> </p>
+    <p class="purple usage-number"> <?php echo $math; ?> MB / <?php echo $limit ?> MB</p>
 </div></div>
                 </div>
             </div>
