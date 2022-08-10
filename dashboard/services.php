@@ -74,7 +74,13 @@ $test = $database->serviceExpiry();
                             <p class="purple info-info"><?php echo $row['domain'] ?></p>
                         </div>
                     </div>
-                    <div><a href='service.php?id=<?php echo $row['id']?>'><p class="footer-bottom-text mt-45">Login to CPanel<span>View Details</span></a></p></div>
+                    <?php
+                    if($row['status'] == "Active") {
+                        echo "<div class='service-link-div'><p class='footer-bottom-text mt-45' style='display: inline-block'>Login to CPanel</p><a href='service.php?id=" . $row['id'] . "'><p style='display: inline-block' class='footer-bottom-text mt-45'>View Details</p></a></div>";
+                    } else {
+                        echo "<div class='service-link-div' style='justify-content: end;'><a href='service.php?id=" . $row['id'] . "'><p style='display: inline-block' class='footer-bottom-text mt-45'>View Details</p></a></div>";
+                    }
+                    ?>
                 </div>
             </div>
             <?php } ?>
