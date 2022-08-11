@@ -30,6 +30,7 @@ class Database {
                 confirmation_code VARCHAR(50),
                 ip_address VARCHAR(50),
                 is_banned INT(11) DEFAULT 0
+                is_admin INT(11) DEFAULT 0
             )");
 
             $this->connection->exec("CREATE TABLE IF NOT EXISTS packages(

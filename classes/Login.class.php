@@ -23,6 +23,9 @@ class Login extends Database {
                         if(password_verify($this->password, $this->row['password'])){
                             $_SESSION['client']['email'] = $this->row['email'];
                             $_SESSION['client']['id'] = $this->row['id'];
+                            if($this->row['is_admin'] == 1){
+                                $_SESSION['client']['admin'] = 1;
+                            }
                             header('location: ../billing-system/dashboard/index.html');
                         }
                     } else {

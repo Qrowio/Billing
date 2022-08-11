@@ -1,6 +1,8 @@
 <?php
 
 class Register extends Database {    
+    private $firstname;
+    private $surname;
     private $email;
     private $password;
     private $confirm;
@@ -13,13 +15,15 @@ class Register extends Database {
     function __construct() {
         if(isset($_POST['submit'])){
             parent::__construct();
+            $this->firstname = filter_var($_POST['firstname'], FILTER_SANITIZE_STRING, FILTER_FLAG_STRIP_HIGH);
+            $this->surname = filter_var($_POST['surname'], FILTER_SANITIZE_STRING, FILTER_FLAG_STRIP_HIGH);
             $this->email = filter_var(strtolower($_POST['email']),FILTER_SANITIZE_EMAIL);
             $this->password = $_POST['password'];
             $this->confirm = $_POST['confirm'];
             $this->created = new DateTime();
             $this->created = $this->created->format('Y-m-d H:i:s');
             $this->ip = $_SERVER['REMOTE_ADDR'];
-            if(empty($this->email) || empty($this->password || empty($this->confirm))){
+            if(empty($this->firstname) || empty($this->surname) || empty($this->email) || empty($this->password) || empty($this->confirm)){
                 // Insert Error Later
                 echo "Please submit the entire form";
             } else if ($this->password != $this->confirm){
@@ -35,8 +39,10 @@ class Register extends Database {
                         echo "User already exists";
                     } else {
                         $this->hashed = password_hash($this->password, PASSWORD_DEFAULT);
-                        $this->sql = $this->connection->prepare("INSERT INTO USERS (email, password, createdAt, ip_address) VALUES (:email, :password, :createdAt, :ip_address)");
+                        $this->sql = $this->connection->prepare("INSERT INTO USERS (firstname, lastname, email, password, createdAt, ip_address) VALUES (:firstname, :lastname,:email, :password, :createdAt, :ip_address)");
                         $this->sql->execute([
+                            ':firstname' => $this->firstname,
+                            ':lastname' => $this->surname,
                             ':email' => $this->email,
                             ':password' => $this->hashed,
                             ':createdAt' => $this->created,

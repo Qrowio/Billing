@@ -43,7 +43,10 @@ $settings = new Settings();
                                     <p class="grey dropdown-name-email" style="font-size: 12px;"><?php echo $statement['email']?><br></p>
                                 </div>
                             </div>
-                        </div><a class="dropdown-item" href="settings.php"><img class="nav-icon" src="../assets/img/settings%202.svg" style="margin-right: 10px;">Account Settings</a><a class="dropdown-item" href="#"><img class="nav-icon" src="../assets/img/card.svg" style="margin-right: 10px;">Billing Information</a>
+                        </div>
+                        <a class="dropdown-item" href="settings.php"><img class="nav-icon" src="../assets/img/settings%202.svg" style="margin-right: 10px;">Account Settings</a>
+                        <a class="dropdown-item" href="#"><img class="nav-icon" src="../assets/img/card.svg" style="margin-right: 10px;">Billing Information</a>
+                        <?php if($statement['is_admin'] == 1){echo "<a class='dropdown-item' href='../admin/'><img class='nav-icon' src='../assets/img/settings%202.svg' style='margin-right: 10px;'>Admin</a>";}?>
                         <hr style="color: #777777;"><a class="dropdown-item" href="logout.php"><img class="nav-icon" src="../assets/img/sign-out.svg" style="margin-right: 10px;">Sign Out</a>
                     </div>
                 </div>
