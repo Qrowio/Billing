@@ -9,8 +9,8 @@ class Login extends Database {
     function __construct() {
         if(isset($_POST['submit'])){
             parent::__construct();
-            $this->email = $_POST['email'];
-            $this->password = $_POST['password'];
+            $this->email = filter_var(strtolower($_POST['email']),FILTER_SANITIZE_EMAIL);
+            $this->password = strip_tags($_POST['password']);
             if(empty($this->email) || empty($this->password)) {
                 // Put better error later.
                 echo "Please fill the form";

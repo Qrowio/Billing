@@ -60,8 +60,6 @@ class Database {
                 module_username TEXT NOT NULL,
                 api_key TEXT NOT NULL
             )");
-
-            $this->connection->exec("use $this->name");
         } catch(PDOException $err) {
             echo $err;
         }

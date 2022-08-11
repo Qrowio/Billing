@@ -15,11 +15,11 @@ class Register extends Database {
     function __construct() {
         if(isset($_POST['submit'])){
             parent::__construct();
-            $this->firstname = filter_var($_POST['firstname'], FILTER_SANITIZE_STRING, FILTER_FLAG_STRIP_HIGH);
-            $this->surname = filter_var($_POST['surname'], FILTER_SANITIZE_STRING, FILTER_FLAG_STRIP_HIGH);
-            $this->email = filter_var(strtolower($_POST['email']),FILTER_SANITIZE_EMAIL);
-            $this->password = $_POST['password'];
-            $this->confirm = $_POST['confirm'];
+            $this->firstname = filter_var($_REQUEST['firstname'], FILTER_SANITIZE_STRING, FILTER_FLAG_STRIP_HIGH);
+            $this->surname = filter_var($_REQUEST['surname'], FILTER_SANITIZE_STRING, FILTER_FLAG_STRIP_HIGH);
+            $this->email = filter_var(strtolower($_REQUEST['email']),FILTER_SANITIZE_EMAIL);
+            $this->password = strip_tags($_REQUEST['password']);
+            $this->confirm = strip_tags($_REQUEST['confirm']);
             $this->created = new DateTime();
             $this->created = $this->created->format('Y-m-d H:i:s');
             $this->ip = $_SERVER['REMOTE_ADDR'];
