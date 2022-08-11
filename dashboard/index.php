@@ -32,10 +32,20 @@ $test = $database->serviceExpiry();
                     <li class="nav-item"><img class="nav-icon" src="../assets/img/dashboard%201.svg"><a class="nav-link active" href="#">Dashboard</a></li>
                     <li class="nav-item"><img class="nav-icon" src="../assets/img/server%201.svg"><a class="nav-link" href="services.php">My Services</a></li>
                     <li class="nav-item"><img class="nav-icon" src="../assets/img/heart%20(1)%201.svg" width="20" height="43"><a class="nav-link" href="#">Tickets</a></li>
-                    <li class="nav-item"><img class="nav-icon" src="../assets/img/settings%202.svg"><a class="nav-link" href="#">Account Settings</a></li>
+                    <li class="nav-item"><img class="nav-icon" src="../assets/img/settings%202.svg"><a class="nav-link" href="settings.php">Account Settings</a></li>
                 </ul><img class="picture" src="../assets/img/unsplash_WNoLnJo7tS8.svg">
-                <div class="dropdown"><a class="dropdown-toggle grey transition" aria-expanded="false" data-bs-toggle="dropdown" href="#">John Doe</a>
-                    <div class="dropdown-menu"><a class="dropdown-item" href="#">First Item</a><a class="dropdown-item" href="#">Second Item</a><a class="dropdown-item" href="#">Third Item</a></div>
+                <div class="dropdown"><a class="dropdown-toggle grey transition" aria-expanded="false" data-bs-toggle="dropdown" href="#"><?php echo $statement['firstname'] . " ". $statement['lastname']?></a>
+                    <div class="dropdown-menu">
+                        <div class="dropdown-div-top">
+                            <div class="dropdown-top-content" style="display: flex;"><img class="picture" width="35" height="100%" src="../assets/img/unsplash_WNoLnJo7tS8.svg">
+                                <div style="display: inline-grid;">
+                                    <p class="grey dropdown-name-email"><?php echo $statement['firstname'] . " ". $statement['lastname']?></p>
+                                    <p class="grey dropdown-name-email" style="font-size: 12px;"><?php echo $statement['email']?><br></p>
+                                </div>
+                            </div>
+                        </div><a class="dropdown-item" href="settings.php"><img class="nav-icon" src="../assets/img/settings%202.svg" style="margin-right: 10px;">Account Settings</a><a class="dropdown-item" href="#"><img class="nav-icon" src="../assets/img/card.svg" style="margin-right: 10px;">Billing Information</a>
+                        <hr style="color: #777777;"><a class="dropdown-item" href="logout.php"><img class="nav-icon" src="../assets/img/sign-out.svg" style="margin-right: 10px;">Sign Out</a>
+                    </div>
                 </div>
             </div>
         </div>
@@ -44,7 +54,7 @@ $test = $database->serviceExpiry();
         <div class="row">
             <div class="col-md-12">
                 <p class="grey panel-p">Dashboard</p>
-                <p class="grey panel-header">Welcome, John Doe</p>
+                <p class="grey panel-header">Welcome, <?php echo $statement['firstname'] . " ". $statement['lastname']?></p>
                 <p class="grey panel-p">Welcome to the dashboard. Through here you can manage your service.</p>
             </div>
         </div>
