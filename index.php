@@ -1,8 +1,5 @@
 <?php
-session_start();
-include 'includes/handler.inc.php';
-$database = new Database();
-$sql = $database->pullServices();
+header("location: login.php")
 ?>
 <!DOCTYPE html>
 <html lang="en">
