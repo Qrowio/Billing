@@ -32,6 +32,15 @@ class Database {
                 is_banned INT(11) DEFAULT 0,
                 is_admin INT(11) DEFAULT 0
             )");
+            
+            $this->connection->exec("CREATE TABLE IF NOT EXISTS main(
+                brand_name VARCHAR(255) NOT NULL DEFAULT 'Ethereal',
+                brand_logo TEXT NULL,
+                smtp_host TEXT NOT NULL,
+                smtp_username TEXT NOT NULL,
+                smtp_password TEXT NOT NULL,
+                smtp_port TEXT NOT NULL
+            )");
 
             $this->connection->exec("CREATE TABLE IF NOT EXISTS packages(
                 id INT(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
@@ -63,6 +72,13 @@ class Database {
         } catch(PDOException $err) {
             echo $err;
         }
+    }
+
+    function brandInfo() {
+        $this->sql = $this->connection->prepare("SELECT * FROM main");
+        $this->sql->execute();
+        $this->row = $this->sql->fetch();
+        return $this->row;
     }
 
     function pullServices() {

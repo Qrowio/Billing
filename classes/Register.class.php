@@ -48,6 +48,8 @@ class Register extends Database {
                             ':createdAt' => $this->created,
                             ':ip_address' => $this->ip
                         ]);
+                        $mailer = new Mail;
+                        $mailer->registerMail('qrow@qrow.dev','noreply',"{$_POST['email']}",'Hi');
                         header('location: login.php');
                     }
                 } catch(PDOException $err){
