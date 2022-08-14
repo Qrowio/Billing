@@ -27,7 +27,7 @@ class Database {
                 tickets INT(11) DEFAULT 0,
                 invoices INT(11) DEFAULT 0,
                 confirmed INT(11) DEFAULT 0,
-                confirmation_code VARCHAR(50),
+                confirmation_code VARCHAR(100),
                 ip_address VARCHAR(50),
                 is_banned INT(11) DEFAULT 0,
                 is_admin INT(11) DEFAULT 0

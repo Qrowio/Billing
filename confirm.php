@@ -1,3 +1,8 @@
+<?php
+include './includes/handler.inc.php';
+$database = new Database();
+$confirm = new Confirm();
+?>
 <!DOCTYPE html>
 <html lang="en">
 

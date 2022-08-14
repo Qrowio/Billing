@@ -11,6 +11,7 @@ class Register extends Database {
     private $row;
     private $hashed;
     private $ip;
+    private $activation_code;
 
     function __construct() {
         if(isset($_POST['submit'])){
@@ -38,19 +39,21 @@ class Register extends Database {
                         // Insert Error Later
                         echo "User already exists";
                     } else {
+                        $this->activation_code = bin2hex(random_Bytes(20));
                         $this->hashed = password_hash($this->password, PASSWORD_DEFAULT);
-                        $this->sql = $this->connection->prepare("INSERT INTO USERS (firstname, lastname, email, password, createdAt, ip_address) VALUES (:firstname, :lastname,:email, :password, :createdAt, :ip_address)");
+                        $this->sql = $this->connection->prepare("INSERT INTO USERS (firstname, lastname, email, password, createdAt, ip_address, confirmation_code) VALUES (:firstname, :lastname,:email, :password, :createdAt, :ip_address, :confirm_code)");
                         $this->sql->execute([
                             ':firstname' => $this->firstname,
                             ':lastname' => $this->surname,
                             ':email' => $this->email,
                             ':password' => $this->hashed,
                             ':createdAt' => $this->created,
-                            ':ip_address' => $this->ip
+                            ':ip_address' => $this->ip,
+                            ':confirm_code' => $this->activation_code
                         ]);
                         $mailer = new Mail;
                         $mailer->registerMail('qrow@qrow.dev','noreply',"{$_POST['email']}",'Hi');
-                        header('location: login.php');
+                        // header('location: login.php');
                     }
                 } catch(PDOException $err){
                     echo $err;

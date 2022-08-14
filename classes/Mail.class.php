@@ -9,9 +9,11 @@ if(strpos($url, 'dashboard') !== false){
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\SMTP;
 use PHPMailer\PHPMailer\Exception;
+
 class Mail extends Database{
     private $mail;
     private $statement;
+    private $row;
 
     public function __construct(){ 
         parent::__construct();
@@ -37,9 +39,13 @@ class Mail extends Database{
         $this->mail->isHTML(true);
         $this->mail->Subject = 'Thank you for registering, ' . $_POST['firstname'];
         
-        ob_start();
-        require_once ('./mail/registeremail.php');
-        $message = ob_get_clean();
+        $message = file_get_contents('./mail/registeremail.php');   
+        $message = str_replace('%brand_name%', 'Ethereal', $message);
+        $this->statement = $this->connection->prepare("SELECT confirmation_code FROM users WHERE email = :email");
+        $this->statement->execute([':email' => $_POST['email']]);
+        $this->row = $this->statement->fetch();
+        $message = str_replace('%code%', $this->row['confirmation_code'], $message);
+        $message = str_replace('%link%', '$_SERVER[HTTP_HOST]', $message);
         $this->mail->msgHTML($message);
         $this->mail->AltBody = 'This is a test with emails.';
 
