@@ -1,21 +1,23 @@
 <?php
 
-class Database {
-    protected $connection;
-    private $ip = 'localhost';
-    private $name = 'billing';
-    private $username = 'root';
-    private $password = '';
+class Database
+{
+    protected PDO $connection;
+    const ip = 'localhost';
+    const name = 'billing';
+    const username = 'root';
+    const password = '';
     private $row;
-    private $sql;
+    private PDOStatement $sql;
     private $id;
     private $email;
 
-    function __construct() {
+    public function __construct()
+    {
         try {
-            $this->connection = new PDO("mysql:host={$this->ip};",$this->username,$this->password);
-            $this->connection->exec("CREATE DATABASE IF NOT EXISTS $this->name");
-            $this->connection->exec("use $this->name");
+            $this->connection = new PDO("mysql:host=".self::ip.";",self::username,self::password);
+            $this->connection->exec('CREATE DATABASE IF NOT EXISTS ' . self::name);
+            $this->connection->exec("use ". self::name);
             $this->connection->exec("CREATE TABLE IF NOT EXISTS users(
                 id INT(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
                 firstname VARCHAR(255) NULL,
@@ -69,63 +71,47 @@ class Database {
                 module_username TEXT NOT NULL,
                 api_key TEXT NOT NULL
             )");
-        } catch(PDOException $err) {
+
+        } catch(PDOException $err)
+        {
             echo $err;
         }
     }
 
-    function brandInfo() {
-        $this->sql = $this->connection->prepare("SELECT * FROM main");
-        $this->sql->execute();
-        $this->row = $this->sql->fetch();
-        return $this->row;
-    }
-
-    function pullServices() {
-        $this->sql = $this->connection->prepare("SELECT * FROM services WHERE user = :user");
-        $this->email = $_SESSION['client']['email'];
-        $this->sql->execute([':user' => $this->email]);
-        return $this->sql;
-    }
-
-    function userInfo() {
-        $this->sql = $this->connection->prepare("SELECT * FROM users WHERE email = :email");
-        $this->sql->execute([':email' => $this->email]);
-        $this->row = $this->sql->fetch();
-        return $this->row;
-    }
+    public function select(string $column, string $table, array $where = []) : array
+    {
+        try 
+        {
+            if(empty($column) || empty($table))
+            {
+                return array();
+            } else
+            {   
+                if(!empty($where))
+                {
+                    $string;
+                    foreach($where as $key => $val)
+                    {
+                        $string = $key . ' = :' . $key;
+                    }
     
-    function serviceExpiry() {
-        $this->sql = $this->connection->prepare("SELECT * FROM services WHERE user = :user");
-        $this->email = $_SESSION['client']['email'];
-        $this->sql->execute([':user' => $this->email]);
-        $this->row = $this->sql->fetchAll();
-        foreach($this->row as $row){
-            $today = date("Y-m-d");
-            $expire = $row['expireAt'];
-            $expireid = $row['id'];
-            if($expire <= $today && $row['status'] != 'Terminated'){
-                $this->sql = $this->connection->prepare("UPDATE services SET status = 'Terminated' WHERE id = :id");
-                $this->sql->execute([':id' => $expireid]);
-                header("Refresh:0");
-            } else if ($expire >= $today) {
-                $this->sql = $this->connection->prepare("UPDATE services SET status = 'Active' WHERE id = :id");
-                $this->sql->execute([':id' => $expireid]);
-            }
-        }
-    }
+                    $this->statement = $this->connection->prepare("SELECT $column FROM $table WHERE $string");
+    
+                    foreach($where as $key => $val)
+                    {
+                        $this->statement->bindValue(":" . $key, $val);
+                    }
+                }
 
-    function servicePage() {
-        $this->id = $_REQUEST['id'];
-        $this->sql = $this->connection->prepare("SELECT user FROM services WHERE id = $this->id");
-        $this->sql->execute();
-        $this->row = $this->sql->fetch();
-        if($this->row['user'] == $_SESSION['client']['email']){
-            $this->sql = $this->connection->prepare("SELECT * FROM services WHERE id = $this->id");
-            $this->sql->execute();
-            return $this->sql;
-        } else {
-            header('location: services.php');
+                if(empty($where))
+                {
+                    $this->statement = $this->connection->prepare("SELECT $column FROM $table");
+                }
+                $this->statement->execute();
+                return $this->statement->fetchAll(PDO::FETCH_ASSOC);
+            }
+        } catch (PDOException $error) {
+            echo $error;
         }
     }
 }

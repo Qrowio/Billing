@@ -4,8 +4,7 @@ include '../includes/handler.inc.php';
 $session = new Session();
 $session->dashboard();
 $database = new Database();
-$sql = $database->pullServices();
-$statement = $database->userInfo();
+$userInfo = $database->select('*', 'users', ['id' => $_SESSION['client']['id']]);
 $settings = new Settings();
 include '../views/dashboard/meta.html';
 include '../views/dashboard/nav.html';
@@ -30,8 +29,8 @@ include '../views/dashboard/nav.html';
                 <p class="settngs-desc grey">This will be displayed across the site. It will also be used in your billing statements.<br></p>
             </div>
             <div class="col-md-6 offset-xxl-1 settings-div">
-                <div class="settings-3"><input type="text" name="firstName" placeholder="<?php echo $statement['firstname']?>" class="settings-small"></div>
-                <div class="settings-3"><input type="text" name="lastName" placeholder="<?php echo $statement['lastname']?>" class="settings-small"></div>
+                <div class="settings-3"><input type="text" name="firstName" placeholder="<?php echo $userInfo[0]['firstname']?>" class="settings-small"></div>
+                <div class="settings-3"><input type="text" name="lastName" placeholder="<?php echo $userInfo[0]['lastname']?>" class="settings-small"></div>
             </div>
             <div class="col-md-12 col-lg-12 col-xl-12 col-xxl-12 offset-xxl-0">
                 <hr class="settings-hr">
@@ -41,7 +40,7 @@ include '../views/dashboard/nav.html';
                 <p class="settngs-desc grey">This will be used for all email purposes. This includes password resets and order information.<br></p>
             </div>
             <div class="col-md-6 offset-xxl-1 settings-div">
-                <div class="settings-3" style="width: 100%;"><input type="text" name="email" placeholder="<?php echo $statement['email']; ?>"class="settings-small" style="width: 100%!important;"></div>
+                <div class="settings-3" style="width: 100%;"><input type="text" name="email" placeholder="<?php echo $userInfo[0]['email']; ?>"class="settings-small" style="width: 100%!important;"></div>
                 <div class="settings-3"></div>
             </div>
             <div class="col-md-12 col-lg-12 col-xl-12 col-xxl-12 offset-xxl-0">

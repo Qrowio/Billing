@@ -4,20 +4,19 @@ include '../includes/handler.inc.php';
 $session = new Session();
 $session->dashboard();
 $database = new Database();
-$sql = $database->servicePage();
-$row = $sql->fetch();
+$userInfo = $database->select('*', 'users', ['id' => $_SESSION['client']['id']]);
 $cpanel = new CPanel();
 $decode = $cpanel->requestInfo();
 $bandwidth = $cpanel->bandwidth();
-$test = $database->serviceExpiry();
-$statement = $database->userInfo();
+$service = new Service();
+$info = $service->serviceInfo();
 include '../views/dashboard/meta.html';
 include '../views/dashboard/nav.html';
 ?>
     <div class="container mt-7">
         <div class="row">
             <div class="col-md-12">
-                <p class="grey panel-p">Service - #<?php echo $row['id']?></p>
+                <p class="grey panel-p">Service - #<?php echo $info[0]['id']?></p>
                 <p class="grey panel-header">My Services</p>
                 <p class="grey panel-p">Here is the individual information about your service.<br></p>
             </div>
