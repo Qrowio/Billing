@@ -27,7 +27,7 @@ class Login extends Database {
                                 if($this->row['is_admin'] == 1){
                                     $_SESSION['client']['admin'] = 1;
                                 }
-                                header('location: ../billing-system/dashboard/index.html');
+                                header('location: ../dashboard/index.html');
                             } else {
                                 // Put better error later
                                 echo "Please verify your account";

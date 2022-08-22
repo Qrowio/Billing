@@ -21,7 +21,7 @@ class Mail extends Database{
         $this->statement->execute();
         $this->row = $this->statement->fetch();
         $this->mail = new PHPMailer(true);
-        $this->mail->SMTPDebug = SMTP::DEBUG_SERVER;
+        $this->mail->SMTPDebug = false;
         $this->mail->isSMTP();
         $this->mail->Host       =  "{$this->row['smtp_host']}";
         $this->mail->SMTPAuth   = true;

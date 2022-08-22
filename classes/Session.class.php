@@ -3,7 +3,7 @@
 class Session {
     function loggedIn() {
         if(isset($_SESSION['client'])){
-            header('location: ../billing-system/dashboard/index.php');
+            header('location: ./dashboard/index.php');
         }
     }
 
