@@ -1,15 +1,21 @@
 <?php
+declare(strict_types = 1);
 
 class Session {
-    function loggedIn() {
-        if(isset($_SESSION['client'])){
-            header('location: ./dashboard/index.php');
+
+    public function loggedIn()
+    {
+        if(isset($_SESSION['client']))
+        {
+            header('location: ./dashboard/');
         }
     }
 
-    function dashboard() {
-        if(!isset($_SESSION['client'])){
-            header('location: ../login.php');
+    function dashboard()
+    {
+        if(!isset($_SESSION['client']))
+        {
+            header('location: ../login');
         }
     }
 }

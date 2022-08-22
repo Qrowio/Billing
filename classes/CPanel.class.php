@@ -29,7 +29,7 @@ class CPanel extends Database {
             curl_setopt($this->curl, CURLOPT_SSL_VERIFYHOST,0);
             curl_setopt($this->curl, CURLOPT_SSL_VERIFYPEER,0);
             curl_setopt($this->curl, CURLOPT_RETURNTRANSFER,1);
-            $this->header[0] = "Authorization: WHM $this->username:" . preg_replace("'(\r|\n)'","",$this->api);\
+            $this->header[0] = "Authorization: WHM $this->username:" . preg_replace("'(\r|\n)'","",$this->api);
             curl_setopt($this->curl,CURLOPT_HTTPHEADER,$this->header);
             if ($this->result == false) {
                 error_log("curl_exec threw error \"" . curl_error($this->curl) . "\" for $this->link");

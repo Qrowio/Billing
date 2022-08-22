@@ -39,7 +39,7 @@ class Mail extends Database{
         $this->mail->isHTML(true);
         $this->mail->Subject = 'Thank you for registering, ' . $_POST['firstname'];
         
-        $message = file_get_contents('./mail/registeremail.php');   
+        $message = file_get_contents('./views/mail/registeremail.php');   
         $message = str_replace('%brand_name%', 'Ethereal', $message);
         $this->statement = $this->connection->prepare("SELECT confirmation_code FROM users WHERE email = :email");
         $this->statement->execute([':email' => $_POST['email']]);
