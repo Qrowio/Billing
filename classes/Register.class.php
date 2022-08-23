@@ -1,61 +1,54 @@
 <?php
 
 class Register extends Database {    
-    private $firstname;
-    private $surname;
-    private $email;
-    private $password;
-    private $confirm;
-    private $created;
-    private $sql;
-    private $row;
-    private $hashed;
-    private $ip;
-    private $activation_code;
+    private string $firstname;
+    private string $surname;
+    private string $email;
+    private string $password;
+    private string $confirm;
+    private string $hashed;
+    private PDOStatement $sql;
+    private array $row;
 
-    function __construct() {
-        if(isset($_POST['submit'])){
-            parent::__construct();
-            $this->firstname = filter_var($_REQUEST['firstname'], FILTER_SANITIZE_STRING, FILTER_FLAG_STRIP_HIGH);
-            $this->surname = filter_var($_REQUEST['surname'], FILTER_SANITIZE_STRING, FILTER_FLAG_STRIP_HIGH);
+    public function __construct()
+    {
+        parent::__construct();
+        if(isset($_POST['submit']))
+        {
+            $this->firstname = filter_var($_REQUEST['firstname'], FILTER_UNSAFE_RAW, FILTER_FLAG_STRIP_HIGH);
+            $this->surname = filter_var($_REQUEST['surname'], FILTER_UNSAFE_RAW, FILTER_FLAG_STRIP_HIGH);
             $this->email = filter_var(strtolower($_REQUEST['email']),FILTER_SANITIZE_EMAIL);
-            $this->password = strip_tags($_REQUEST['password']);
-            $this->confirm = strip_tags($_REQUEST['confirm']);
-            $this->created = new DateTime();
-            $this->created = $this->created->format('Y-m-d H:i:s');
-            $this->ip = $_SERVER['REMOTE_ADDR'];
-            if(empty($this->firstname) || empty($this->surname) || empty($this->email) || empty($this->password) || empty($this->confirm)){
-                // Insert Error Later
-                echo "Please submit the entire form";
-            } else if ($this->password != $this->confirm){
-                // Insert Error Later
-                echo "Your password is incorrect.";
+            $this->password = strip_tags(htmlspecialchars($_REQUEST['password']));
+            $this->confirm = strip_tags(htmlspecialchars($_REQUEST['confirm']));
+            $this->hashed = password_hash($this->password, PASSWORD_DEFAULT);
+
+            if(empty($this->firstname) || empty($this->surname) || empty($this->email) || empty($this->password) || empty($this->confirm) || $this->password != $this->confirm)
+            {
+                echo "A part of the form is not complete or incorrect.";
             } else {
                 try {
-                    $this->sql = $this->connection->prepare("SELECT email FROM users WHERE email = :email");
-                    $this->sql->execute([':email' => $this->email]); 
-                    $this->row = $this->sql->fetch(PDO::FETCH_ASSOC);
-                    if(isset($this->row['email'])){
-                        // Insert Error Later
+                    $this->row = $this->select('email', 'users', ['email' => $this->email]);
+                    if($this->row == $this->email)
+                    {
                         echo "User already exists";
-                    } else {
-                        $this->activation_code = bin2hex(random_Bytes(20));
-                        $this->hashed = password_hash($this->password, PASSWORD_DEFAULT);
+                    } else
+                    {
                         $this->sql = $this->connection->prepare("INSERT INTO USERS (firstname, lastname, email, password, createdAt, ip_address, confirmation_code) VALUES (:firstname, :lastname,:email, :password, :createdAt, :ip_address, :confirm_code)");
                         $this->sql->execute([
                             ':firstname' => $this->firstname,
                             ':lastname' => $this->surname,
                             ':email' => $this->email,
                             ':password' => $this->hashed,
-                            ':createdAt' => $this->created,
-                            ':ip_address' => $this->ip,
-                            ':confirm_code' => $this->activation_code
+                            ':createdAt' => date('Y-m-d H:i:s'),
+                            ':ip_address' => filter_var($_SERVER['REMOTE_ADDR'], FILTER_VALIDATE_IP),
+                            ':confirm_code' => bin2hex(random_Bytes(20))
                         ]);
                         $mailer = new Mail;
-                        $mailer->registerMail('qrow@qrow.dev','noreply',"{$_POST['email']}",'Hi');
-                        // header('location: login.php');
+                        $mailer->registerMail('qrow@qrow.dev','noreply',"{$_POST['email']}");
+                        header('location: login.php');
                     }
-                } catch(PDOException $err){
+                } catch(PDOException $err)
+                {
                     echo $err;
                 }
             }

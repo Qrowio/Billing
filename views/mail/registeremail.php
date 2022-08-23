@@ -187,7 +187,7 @@
                     <table cellspacing="0" cellpadding="0" border="0" width="100%">
                      <tr>
                       <td style="padding-left:32px;padding-right:32px; text-align:left;">
-                       <div style="line-height:150%"><span style="color: #c1c1c1;line-height:150%;font-family:Poppins, Helvetica, Arial, sans-serif; font-size:16px;text-align:left;">Thank you for registering to %brand_name%! To begin using our service and all of the features that we offer to our customers. You must first activate your account. Click the buton below to begin.</span></div>
+                       <div style="line-height:150%"><span style="color: #c1c1c1;line-height:150%;font-family:Poppins, Helvetica, Arial, sans-serif; font-size:16px;text-align:left;">Thank you for registering! To begin using our service and all of the features that we offer to our customers. You must first activate your account. Click the buton below to begin.</span></div>
                       </td>
                      </tr>
                     </table>
@@ -226,7 +226,7 @@
                           <table cellspacing="0" cellpadding="0" border="0" width="100%">
                            <tr>
                             <td style=" text-align:center;">
-                            <a href="http://localhost/billing-system/confirm.php?code=%code%"><div style="line-height:normal"><span style="color: #ffffff;font-family:Poppins, Helvetica, Arial, sans-serif; font-size:14px;text-align:center;font-weight: 600;">Activate Now!</span></div></a>
+                            <a href="%url%/billing/confirm.php?code=%code%"><div style="line-height:normal"><span style="color: #ffffff;font-family:Poppins, Helvetica, Arial, sans-serif; font-size:14px;text-align:center;font-weight: 600;">Activate Now!</span></div></a>
                             </td>
                            </tr>
                           </table>

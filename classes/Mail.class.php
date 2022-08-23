@@ -10,47 +10,41 @@ use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\SMTP;
 use PHPMailer\PHPMailer\Exception;
 
-class Mail extends Database{
+class Mail extends Database
+{
     private $mail;
-    private $statement;
-    private $row;
+    private array $row;
 
-    public function __construct(){ 
+    public function __construct()
+    { 
         parent::__construct();
-        $this->statement = $this->connection->prepare("SELECT smtp_host,smtp_username,smtp_password,smtp_port FROM main");
-        $this->statement->execute();
-        $this->row = $this->statement->fetch();
+        $this->row = $this->select('smtp_host, smtp_username, smtp_password, smtp_port', 'main');
         $this->mail = new PHPMailer(true);
-        $this->mail->SMTPDebug = false;
         $this->mail->isSMTP();
-        $this->mail->Host       =  "{$this->row['smtp_host']}";
+        $this->mail->isHTML(true);
+        $this->mail->Host       =  "{$this->row[0]['smtp_host']}";
         $this->mail->SMTPAuth   = true;
-        $this->mail->Username   = "{$this->row['smtp_username']}";
-        $this->mail->Password   =  "{$this->row['smtp_password']}";
+        $this->mail->Username   = "{$this->row[0]['smtp_username']}";
+        $this->mail->Password   =  "{$this->row[0]['smtp_password']}";
         $this->mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;
-        $this->mail->Port       =  "{$this->row['smtp_port']}";               
+        $this->mail->Port       =  "{$this->row[0]['smtp_port']}";               
     }
 
-    public function registerMail($sender,$name,$email,$code) {
-    try {
+    public function registerMail($sender,$name,$email)
+    {
+    try
+    {
         $this->mail->setFrom($sender, $name);
         $this->mail->addAddress($email);
-
-        $this->mail->isHTML(true);
-        $this->mail->Subject = 'Thank you for registering, ' . $_POST['firstname'];
-        
+        $this->mail->Subject = 'Thank you for registering, ' . filter_var($_REQUEST['firstname'], FILTER_UNSAFE_RAW, FILTER_FLAG_STRIP_HIGH);
+        $this->row = $this->select('confirmation_code', 'users', ['email' => filter_var(strtolower($_REQUEST['email']),FILTER_SANITIZE_EMAIL)]);      
         $message = file_get_contents('./views/mail/registeremail.php');   
-        $message = str_replace('%brand_name%', 'Ethereal', $message);
-        $this->statement = $this->connection->prepare("SELECT confirmation_code FROM users WHERE email = :email");
-        $this->statement->execute([':email' => $_POST['email']]);
-        $this->row = $this->statement->fetch();
-        $message = str_replace('%code%', $this->row['confirmation_code'], $message);
-        $message = str_replace('%link%', '$_SERVER[HTTP_HOST]', $message);
+        $message = str_Replace('%url%', $_SERVER['SERVER_NAME'], $message);
+        $message = str_replace('%code%', $this->row[0]['confirmation_code'], $message);
         $this->mail->msgHTML($message);
-        $this->mail->AltBody = 'This is a test with emails.';
-
         $this->mail->send();
-    } catch (Exception $e) {
+    } catch (Exception $e)
+    {
         echo "Message could not be sent. Mailer Error: {$this->mail->ErrorInfo}";
         }
     }

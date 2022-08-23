@@ -14,13 +14,13 @@ class Settings extends Database {
 
             switch($_REQUEST){
                 case !empty($_REQUEST['firstName']):
-                    $this->firstName = filter_var($_REQUEST['firstName'], FILTER_SANITIZE_STRING, FILTER_FLAG_STRIP_HIGH);
+                    $this->firstname = filter_var($_REQUEST['firstname'], FILTER_UNSAFE_RAW, FILTER_FLAG_STRIP_HIGH);
                 case !empty($_REQUEST['lastName']):
-                    $this->lastName = filter_var($_REQUEST['lastName'], FILTER_SANITIZE_STRING, FILTER_FLAG_STRIP_HIGH);
+                    $this->lastName = filter_var($_REQUEST['lastName'], FILTER_UNSAFE_RAW, FILTER_FLAG_STRIP_HIGH);
                 case !empty($_REQUEST['password']):
-                    $this->password = strip_tags($_REQUEST['password']);
+                    $this->password = strip_tags(htmlspecialchars($_REQUEST['password']));
                 case !empty($_REQUEST['confirm']):
-                    $this->confirm = strip_tags($_REQUEST['confirm']);
+                    $this->confirm = strip_tags(htmlspecialchars($_REQUEST['confirm']));
             }
 
             if(!empty($_REQUEST['email'])){

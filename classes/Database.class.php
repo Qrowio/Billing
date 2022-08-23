@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 class Database
 {
@@ -9,8 +10,6 @@ class Database
     const password = '';
     private $row;
     private PDOStatement $sql;
-    private $id;
-    private $email;
 
     public function __construct()
     {
