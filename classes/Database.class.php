@@ -8,7 +8,7 @@ class Database
     const name = 'billing';
     const username = 'root';
     const password = '';
-    private $row;
+    private array $row;
     private PDOStatement $sql;
 
     public function __construct()

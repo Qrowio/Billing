@@ -11,11 +11,19 @@ class Session {
         }
     }
 
-    function dashboard()
+    public function dashboard()
     {
         if(!isset($_SESSION['client']))
         {
             header('location: ../login');
+        }
+    }
+
+    public function admin()
+    {
+        if(!isset($_SESSION['admin']))
+        {
+            header('location: ../dashboard/');
         }
     }
 }

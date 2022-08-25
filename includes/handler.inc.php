@@ -1,11 +1,15 @@
 <?php
-spl_autoload_register(function($class) {
+spl_autoload_register(function($class)
+{
     $url = "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
-    if(strpos($url, 'dashboard') !== false){
+    if(strpos($url, 'dashboard') !== false)
+    {
         $path = '../classes/';
-    } else if (strpos($url, 'mail') !== false){
+    } else if(strpos($url, 'admin') !== false)
+    {
         $path = '../classes/';
-    } else {
+    } else 
+    {
         $path = 'classes/';
     }
     $extension = '.class.php';

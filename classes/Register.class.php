@@ -28,7 +28,7 @@ class Register extends Database {
             } else {
                 try {
                     $this->row = $this->select('email', 'users', ['email' => $this->email]);
-                    if($this->row == $this->email)
+                    if($this->row[0]['email'] == $this->email)
                     {
                         echo "User already exists";
                     } else

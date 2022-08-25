@@ -29,8 +29,8 @@ include '../views/dashboard/nav.html';
                 <p class="settngs-desc grey">This will be displayed across the site. It will also be used in your billing statements.<br></p>
             </div>
             <div class="col-md-6 offset-xxl-1 settings-div">
-                <div class="settings-3"><input type="text" name="firstName" placeholder="<?php echo $userInfo[0]['firstname']?>" class="settings-small"></div>
-                <div class="settings-3"><input type="text" name="lastName" placeholder="<?php echo $userInfo[0]['lastname']?>" class="settings-small"></div>
+                <div class="settings-3"><input type="text" name="firstname" placeholder="<?php echo $userInfo[0]['firstname']?>" class="settings-small"></div>
+                <div class="settings-3"><input type="text" name="lastname" placeholder="<?php echo $userInfo[0]['lastname']?>" class="settings-small"></div>
             </div>
             <div class="col-md-12 col-lg-12 col-xl-12 col-xxl-12 offset-xxl-0">
                 <hr class="settings-hr">
@@ -51,8 +51,8 @@ include '../views/dashboard/nav.html';
                 <p class="settngs-desc grey">If you need to change your password, you can feel free to do it here.<br></p>
             </div>
             <div class="col-md-6 offset-xxl-1 settings-div">
-                <div class="settings-3"><input type="text" name="password" class="settings-small"></div>
-                <div class="settings-3"><input type="text" name="confirm" class="settings-small"></div>
+                <div class="settings-3"><input type="text" placeholder="Current Password" name="password" class="settings-small"></div>
+                <div class="settings-3"><input type="text" placeholder="New Password" name="confirm" class="settings-small"></div>
             </div>
         </div>
     </div>

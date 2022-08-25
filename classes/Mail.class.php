@@ -30,9 +30,7 @@ class Mail extends Database
         $this->mail->Port       =  "{$this->row[0]['smtp_port']}";               
     }
 
-    public function registerMail($sender,$name,$email)
-    {
-    try
+    public function registerMail(string $sender, string $name, string $email)
     {
         $this->mail->setFrom($sender, $name);
         $this->mail->addAddress($email);
@@ -42,10 +40,6 @@ class Mail extends Database
         $message = str_Replace('%url%', $_SERVER['SERVER_NAME'], $message);
         $message = str_replace('%code%', $this->row[0]['confirmation_code'], $message);
         $this->mail->msgHTML($message);
-        $this->mail->send();
-    } catch (Exception $e)
-    {
-        echo "Message could not be sent. Mailer Error: {$this->mail->ErrorInfo}";
-        }
+        $this->mail->send();    
     }
 }

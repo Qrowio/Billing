@@ -10,15 +10,16 @@ class Confirm extends Database
         parent::__construct();
         if(isset($_REQUEST['code']))
         {
-            $this->row = $this->select('*', 'users', ['confirmation_code' => strip_tags($_REQUEST['code'])]);
+            $code = htmlspecialchars($_REQUEST['code']);
+            $this->row = $this->select('*', 'users', ['confirmation_code' => $code]);
             if($this->row[0]['confirmed'] == 1)
             {
                 header("location: login.php");
             } else {
-                if($_REQUEST['code'] == $this->row[0]['confirmation_code'])
+                if($code == $this->row[0]['confirmation_code'])
                 {
                     $this->statement = $this->connection->prepare("UPDATE users SET confirmed = 1 WHERE confirmation_code = :code");
-                    $this->statement->execute([':code' => strip_tags($_REQUEST['code'])]);
+                    $this->statement->execute([':code' => $code]);
                     header("refresh:5;url=login.php");
                 } else
                 {
