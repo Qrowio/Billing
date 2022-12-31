@@ -1,11 +1,9 @@
 
 # Ethereal - Billing System
 
-Ethereal Billing System is meant to be used as a personal alternative to WHMCS. In no way is this as good or even better than WHMCS apart from the fact that is free and open source to the public. 
-I used to run a variety of different hosting companies that used CPanel. I created this billing system so that I can manage client websites for my freelance side hustle while also having an intiutive user friendly design for them.
+The Ethereal Billing System is designed as a free and open source alternative to WHMCS, intended for personal use. While it may not be as comprehensive or feature-rich as WHMCS, it was created with the goal of providing an intuitive and user-friendly interface for managing client websites for freelance projects. Please be aware that this system is no longer in active development and may contain bugs or have incomplete features. You are welcome to use it for your personal needs or for hosting companies, with the understanding that it is not intended to be a direct replacement for WHMCS and may not receive updates or improvements. We encourage you to use it as a starting point for your own needs and projects, but be aware that it is offered as-is with no guarantee of support or maintenance.
 
-You are free to take this and use it as a base for your personal needs, hosting companies and so on. I do not mind. This is a work in progress website application so please expect bugs and lack of features.
-
+The Ethereal Billing System is currently inactive, but development will resume in 2023 with a planned timeline and additional details. If you are interested in contributing to the project or have ideas for potential features, please contact me through Discord. We welcome all feedback and support as we work to improve and update the Ethereal Billing System.
 
 ## Acknowledgements
 
